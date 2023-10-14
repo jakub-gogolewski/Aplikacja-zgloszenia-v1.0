@@ -22,7 +22,7 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('imie', null, [
+        ->add('name', null, [
             'constraints' => [
         	    new Regex([
                     'pattern' => '/^(\p{L}+[- ]?)+$/u',
@@ -34,7 +34,7 @@ class RegistrationFormType extends AbstractType
 				'placeholder' => 'Imię'
 			]
 	    ])
-        ->add('nazwisko', null, [
+        ->add('lastname', null, [
 			'constraints' => [
 				new Regex([
 					'pattern' => '/^(\p{L}+[- ]?)+$/u',

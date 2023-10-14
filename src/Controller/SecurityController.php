@@ -8,14 +8,22 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, TokenStorageInterface $tokenStorage): Response
     {
          if ($this->getUser()) {
+            // Sprawdzanie, czy użytkownik potwierdził e-mail
+            if (!$this->getUser()->isVerified) {
+                $tokenStorage->setToken(null);
+                $this->addFlash('error', 'Musisz potwierdzić maila, zanim się zalogujesz!');
+                return $this->redirectToRoute('app_login');
+            }
              return $this->redirectToRoute('app_main');
         }
 

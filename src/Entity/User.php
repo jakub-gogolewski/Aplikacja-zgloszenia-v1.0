@@ -38,10 +38,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     #[ORM\Column(length: 255)]
-    private ?string $imie = null;
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nazwisko = null;
+    private ?string $lastname = null;
 
     public function getId(): ?Uuid
     {
@@ -125,27 +125,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getImie(): ?string
+    public function getName(): ?string
     {
-        return $this->imie;
+        return $this->name;
     }
 
-    public function setImie(string $imie): static
+    public function setName(string $name): static
     {
-        $this->imie = $imie;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getNazwisko(): ?string
+    public function getLastname(): ?string
     {
-        return $this->nazwisko;
+        return $this->lastname;
     }
 
-    public function setNazwisko(string $nazwisko): static
+    public function setLastname(string $lastname): static
     {
-        $this->nazwisko = $nazwisko;
-
+        $this->lastname = $lastname;
         return $this;
     }
 

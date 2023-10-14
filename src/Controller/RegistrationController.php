@@ -94,7 +94,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('notice',$translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
+            $this->addFlash('verify_error',$translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
             return $this->redirectToRoute('app_login');
         }

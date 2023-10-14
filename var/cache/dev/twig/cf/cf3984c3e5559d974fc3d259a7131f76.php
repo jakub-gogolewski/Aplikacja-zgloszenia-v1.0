@@ -76,11 +76,11 @@ class __TwigTemplate_25d5a6e070781fb46ff128dc7be9c150 extends Template
             echo "            <li>";
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "Id", [], "any", false, false, false, 7), "html", null, true);
             echo " ";
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "Imie", [], "any", false, false, false, 7), "html", null, true);
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "Name", [], "any", false, false, false, 7), "html", null, true);
             echo " ";
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "Nazwisko", [], "any", false, false, false, 7), "html", null, true);
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "Lastname", [], "any", false, false, false, 7), "html", null, true);
             echo " | ";
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "getEmail", [], "any", false, false, false, 7), "html", null, true);
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "Email", [], "any", false, false, false, 7), "html", null, true);
             echo " | ";
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "IsVerified", [], "any", false, false, false, 7), "html", null, true);
             echo "
@@ -148,7 +148,7 @@ class __TwigTemplate_25d5a6e070781fb46ff128dc7be9c150 extends Template
     <h1>Lista użytkowników</h1>
     <ul>
         {% for user in users %}
-            <li>{{ user.Id }} {{ user.Imie }} {{ user.Nazwisko }} | {{ user.getEmail }} | {{ user.IsVerified }}
+            <li>{{ user.Id }} {{ user.Name }} {{ user.Lastname }} | {{ user.Email }} | {{ user.IsVerified }}
             <button class=\"delete-btn\" data-user-id=\"{{ user.Id }}\">Usuń</button>
             </li>
         {% endfor %}

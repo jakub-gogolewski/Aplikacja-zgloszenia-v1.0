@@ -4,7 +4,7 @@
     <h1>Lista użytkowników</h1>
     <ul>
         {% for user in users %}
-            <li>{{ user.Id }} {{ user.Imie }} {{ user.Nazwisko }} | {{ user.getEmail }} | {{ user.IsVerified }}
+            <li>{{ user.Id }} {{ user.Name }} {{ user.Lastname }} | {{ user.Email }} | {{ user.IsVerified }}
             <button class="delete-btn" data-user-id="{{ user.Id }}">Usuń</button>
             </li>
         {% endfor %}

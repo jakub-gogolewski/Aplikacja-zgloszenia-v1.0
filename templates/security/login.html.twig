@@ -33,10 +33,10 @@
             <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
         </div>
 
-        {{ form_widget(registrationForm.imie) }}
-        {% if registrationForm.imie.vars.errors|length > 0 %}
+        {{ form_widget(registrationForm.name) }}
+        {% if registrationForm.name.vars.errors|length > 0 %}
         <div>
-            <small class="form-error">{{ registrationForm.imie.vars.errors|first.message }}</small>
+            <small class="form-error">{{ registrationForm.name.vars.errors|first.message }}</small>
         </div>
         {% endif %}
     </div>
@@ -46,11 +46,11 @@
         <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
         </div>
         
-        {{ form_widget(registrationForm.nazwisko) }}
+        {{ form_widget(registrationForm.lastname) }}
 
-        {% if registrationForm.nazwisko.vars.errors|length > 0 %}
+        {% if registrationForm.lastname.vars.errors|length > 0 %}
         <div>
-            <small class="form-error">{{ registrationForm.nazwisko.vars.errors|first.message }}</small>
+            <small class="form-error">{{ registrationForm.lastname.vars.errors|first.message }}</small>
         </div>
         {% endif %}
     </div>
@@ -95,6 +95,9 @@
 
 	<div class="form-container sign-in-container">
 		<form method="post" action="/login">
+            {% for flash_error in app.flashes('verify_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
             {% for message in app.flashes('notice') %}
     <div class="alert alert-success">
         {{ message }}
