@@ -174,6 +174,8 @@ class __TwigTemplate_25d5a6e070781fb46ff128dc7be9c150 extends Template
     });
 </script>
 {% endblock %}
+
+
 ", "main/index.html.twig", "C:\\Users\\GogolTech\\Desktop\\duzy_projekt_programowanie\\templates\\main\\index.html.twig");
     }
 }
