@@ -44,7 +44,7 @@ class __TwigTemplate_522617cdd1548be606f63f93b92ed3a9 extends Template
 
 <link rel=\"stylesheet\" href=\"./dist/css/login.css\">
 <link rel=\"stylesheet\" href=\"./plugins/fontawesome-free/css/all.css\">
-<link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">
+
 <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>
 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js\"></script>
 
@@ -414,7 +414,7 @@ signInButton.addEventListener('click', () => {
 
 <link rel=\"stylesheet\" href=\"./dist/css/login.css\">
 <link rel=\"stylesheet\" href=\"./plugins/fontawesome-free/css/all.css\">
-<link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">
+
 <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>
 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js\"></script>
 

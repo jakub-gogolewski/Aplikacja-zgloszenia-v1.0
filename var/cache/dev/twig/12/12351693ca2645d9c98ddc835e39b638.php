@@ -184,6 +184,6 @@ class __TwigTemplate_983d984dfe8635fb6392b6f4bcf42996 extends Template
         {% block body %}{% endblock %}
     </body>
 </html>
-", "base.html.twig", "C:\\duzy_projekt_programowanie\\templates\\base.html.twig");
+", "base.html.twig", "C:\\Users\\GogolTech\\Desktop\\duzy_projekt_programowanie\\templates\\base.html.twig");
     }
 }
