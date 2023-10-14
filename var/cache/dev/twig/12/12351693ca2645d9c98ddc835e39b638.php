@@ -61,13 +61,13 @@ class __TwigTemplate_983d984dfe8635fb6392b6f4bcf42996 extends Template
         ";
         // line 10
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 12
+        // line 13
         echo "    </head>
     <body>
         ";
-        // line 14
-        $this->displayBlock('body', $context, $blocks);
         // line 15
+        $this->displayBlock('body', $context, $blocks);
+        // line 16
         echo "    </body>
 </html>
 ";
@@ -129,7 +129,8 @@ class __TwigTemplate_983d984dfe8635fb6392b6f4bcf42996 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
         // line 11
-        echo "        ";
+        echo "        <script src=\"https://code.jquery.com/jquery-3.6.0.min.js\"></script>
+        ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -138,7 +139,7 @@ class __TwigTemplate_983d984dfe8635fb6392b6f4bcf42996 extends Template
 
     }
 
-    // line 14
+    // line 15
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -163,7 +164,7 @@ class __TwigTemplate_983d984dfe8635fb6392b6f4bcf42996 extends Template
 
     public function getDebugInfo()
     {
-        return array (  142 => 14,  132 => 11,  122 => 10,  112 => 8,  102 => 7,  83 => 5,  71 => 15,  69 => 14,  65 => 12,  63 => 10,  60 => 9,  58 => 7,  53 => 5,  47 => 1,);
+        return array (  143 => 15,  132 => 11,  122 => 10,  112 => 8,  102 => 7,  83 => 5,  71 => 16,  69 => 15,  65 => 13,  63 => 10,  60 => 9,  58 => 7,  53 => 5,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -178,6 +179,7 @@ class __TwigTemplate_983d984dfe8635fb6392b6f4bcf42996 extends Template
         {% endblock %}
 
         {% block javascripts %}
+        <script src=\"https://code.jquery.com/jquery-3.6.0.min.js\"></script>
         {% endblock %}
     </head>
     <body>

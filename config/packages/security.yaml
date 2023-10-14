@@ -39,8 +39,12 @@ security:
     access_control:
     - { path: ^/login$, role: PUBLIC_ACCESS }
     - { path: ^/register$, role: PUBLIC_ACCESS }
+    - { path: ^/logout$, role: PUBLIC_ACCESS }
     - { path: ^/verify/email, role: PUBLIC_ACCESS }
     - { path: ^/, role: ROLE_VERIFIED }
+    - { path: ^/user/delete/, role: ROLE_VERIFIED }
+    - { path: ^/user/edit/, role: ROLE_VERIFIED }
+
 
 when@test:
     security:

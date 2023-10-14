@@ -25,7 +25,6 @@ class __TwigTemplate_25d5a6e070781fb46ff128dc7be9c150 extends Template
         $this->source = $this->getSourceContext();
 
         $this->blocks = [
-            'title' => [$this, 'block_title'],
             'body' => [$this, 'block_body'],
         ];
     }
@@ -56,25 +55,6 @@ class __TwigTemplate_25d5a6e070781fb46ff128dc7be9c150 extends Template
     }
 
     // line 3
-    public function block_title($context, array $blocks = [])
-    {
-        $macros = $this->macros;
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
-
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
-
-        echo "Hello MainController!";
-        
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
-
-        
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
-
-    }
-
-    // line 5
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -84,30 +64,58 @@ class __TwigTemplate_25d5a6e070781fb46ff128dc7be9c150 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 6
-        echo "<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class=\"example-wrapper\">
-    <h1>Hello ";
-        // line 12
-        echo twig_escape_filter($this->env, (isset($context["controller_name"]) || array_key_exists("controller_name", $context) ? $context["controller_name"] : (function () { throw new RuntimeError('Variable "controller_name" does not exist.', 12, $this->source); })()), "html", null, true);
-        echo "! ✅</h1>
-
-    This friendly message is coming from:
+        // line 4
+        echo "    <h1>Lista użytkowników</h1>
     <ul>
-        <li>Your controller at <code><a href=\"";
-        // line 16
-        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\CodeExtension']->getFileLink("C:/duzy_projekt_programowanie/src/Controller/MainController.php", 0), "html", null, true);
-        echo "\">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href=\"";
-        // line 17
-        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\CodeExtension']->getFileLink("C:/duzy_projekt_programowanie/templates/main/index.html.twig", 0), "html", null, true);
-        echo "\">templates/main/index.html.twig</a></code></li>
-    </ul>
-</div>
+        ";
+        // line 6
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable((isset($context["users"]) || array_key_exists("users", $context) ? $context["users"] : (function () { throw new RuntimeError('Variable "users" does not exist.', 6, $this->source); })()));
+        foreach ($context['_seq'] as $context["_key"] => $context["user"]) {
+            // line 7
+            echo "            <li>";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "Id", [], "any", false, false, false, 7), "html", null, true);
+            echo " ";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "Imie", [], "any", false, false, false, 7), "html", null, true);
+            echo " ";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "Nazwisko", [], "any", false, false, false, 7), "html", null, true);
+            echo " | ";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "getEmail", [], "any", false, false, false, 7), "html", null, true);
+            echo " | ";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "IsVerified", [], "any", false, false, false, 7), "html", null, true);
+            echo "
+            <button class=\"delete-btn\" data-user-id=\"";
+            // line 8
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["user"], "Id", [], "any", false, false, false, 8), "html", null, true);
+            echo "\">Usuń</button>
+            </li>
+        ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['user'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 11
+        echo "    </ul>
+    <script>
+    \$(document).on('click', '.delete-btn', function() {
+        let userId = \$(this).data('user-id');
+        \$.ajax({
+            url: `/user/delete/\${userId}`,
+            method: 'POST',
+            success: function() {
+                alert('Użytkownik został usunięty');
+                location.reload(); // Odśwież stronę, aby zaktualizować listę
+            },
+            error: function(jqXHR) {
+    let errorMessage = 'Błąd podczas usuwania użytkownika';
+    if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+        errorMessage = jqXHR.responseJSON.message;
+    }
+    alert(errorMessage);
+}
+        });
+    });
+</script>
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -129,30 +137,42 @@ class __TwigTemplate_25d5a6e070781fb46ff128dc7be9c150 extends Template
 
     public function getDebugInfo()
     {
-        return array (  107 => 17,  103 => 16,  96 => 12,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  98 => 11,  89 => 8,  76 => 7,  72 => 6,  68 => 4,  58 => 3,  35 => 1,);
     }
 
     public function getSourceContext()
     {
         return new Source("{% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class=\"example-wrapper\">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
+    <h1>Lista użytkowników</h1>
     <ul>
-        <li>Your controller at <code><a href=\"{{ 'C:/duzy_projekt_programowanie/src/Controller/MainController.php'|file_link(0) }}\">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href=\"{{ 'C:/duzy_projekt_programowanie/templates/main/index.html.twig'|file_link(0) }}\">templates/main/index.html.twig</a></code></li>
+        {% for user in users %}
+            <li>{{ user.Id }} {{ user.Imie }} {{ user.Nazwisko }} | {{ user.getEmail }} | {{ user.IsVerified }}
+            <button class=\"delete-btn\" data-user-id=\"{{ user.Id }}\">Usuń</button>
+            </li>
+        {% endfor %}
     </ul>
-</div>
+    <script>
+    \$(document).on('click', '.delete-btn', function() {
+        let userId = \$(this).data('user-id');
+        \$.ajax({
+            url: `/user/delete/\${userId}`,
+            method: 'POST',
+            success: function() {
+                alert('Użytkownik został usunięty');
+                location.reload(); // Odśwież stronę, aby zaktualizować listę
+            },
+            error: function(jqXHR) {
+    let errorMessage = 'Błąd podczas usuwania użytkownika';
+    if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+        errorMessage = jqXHR.responseJSON.message;
+    }
+    alert(errorMessage);
+}
+        });
+    });
+</script>
 {% endblock %}
 ", "main/index.html.twig", "C:\\Users\\GogolTech\\Desktop\\duzy_projekt_programowanie\\templates\\main\\index.html.twig");
     }
