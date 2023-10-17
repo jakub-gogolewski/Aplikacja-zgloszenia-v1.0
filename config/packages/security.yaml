@@ -41,7 +41,7 @@ security:
     - { path: ^/register$, role: PUBLIC_ACCESS }
     - { path: ^/logout$, role: PUBLIC_ACCESS }
     - { path: ^/verify/email, role: PUBLIC_ACCESS }
-    - { path: ^/, role: ROLE_VERIFIED }
+    - { path: ^/, role: ROLE_USER }
     - { path: ^/user/delete/, role: ROLE_VERIFIED }
     - { path: ^/user/edit/, role: ROLE_VERIFIED }
 
