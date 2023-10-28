@@ -94,6 +94,6 @@ class __TwigTemplate_0b593855c1f1767377e258d9c3aa30f3 extends Template
 <p>
     Cheers!
 </p>
-", "registration/confirmation_email.html.twig", "C:\\duzy_projekt_programowanie\\templates\\registration\\confirmation_email.html.twig");
+", "registration/confirmation_email.html.twig", "C:\\Users\\GogolTech\\Desktop\\duzy_projekt_programowanie\\templates\\registration\\confirmation_email.html.twig");
     }
 }

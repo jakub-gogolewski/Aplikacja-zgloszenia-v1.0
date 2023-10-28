@@ -10,30 +10,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
 
 
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_main')]
-    public function index(UserRepository $userRepository, TokenStorageInterface $tokenStorage, #[CurrentUser] $currentUser, Request $request): Response
+    public function index(UserRepository $userRepository): Response
     {
-
-            if (!$currentUser?->isVerified()) {
-                
-            // 1. Usuń token
-            $tokenStorage->setToken(null);
-            // 2. Usuń ciasteczko "Zapamiętaj mnie"
-            $request->getSession()->invalidate();
-            $response = $this->redirectToRoute('app_login');
-            $response->headers->clearCookie('REMEMBERME');
-            $this->addFlash('error', 'Musisz potwierdzić maila, zanim się zalogujesz!');
-            return $response;
-            }
-
-
-
         $users = $userRepository->findAll();
 
         return $this->render('main/index.html.twig', [

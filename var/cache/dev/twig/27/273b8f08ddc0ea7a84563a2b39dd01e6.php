@@ -677,6 +677,6 @@ class __TwigTemplate_adf3be9b028b070551fe4cbe2a96f0c0 extends Template
         {% endif %}
     </div>
 {% endblock %}
-", "@WebProfiler/Collector/http_client.html.twig", "C:\\duzy_projekt_programowanie\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Collector\\http_client.html.twig");
+", "@WebProfiler/Collector/http_client.html.twig", "C:\\Users\\GogolTech\\Desktop\\duzy_projekt_programowanie\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Collector\\http_client.html.twig");
     }
 }

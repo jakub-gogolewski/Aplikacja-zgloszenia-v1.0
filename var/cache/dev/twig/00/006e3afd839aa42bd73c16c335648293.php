@@ -214,28 +214,14 @@ class __TwigTemplate_522617cdd1548be606f63f93b92ed3a9 extends Template
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['flash_error'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
         // line 101
-        echo "                ";
-        $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 101, $this->source); })()), "flashes", ["error"], "method", false, false, false, 101));
-        foreach ($context['_seq'] as $context["_key"] => $context["flash_error"]) {
-            // line 102
-            echo "        <div class=\"alert alert-danger\" role=\"alert\">";
-            echo twig_escape_filter($this->env, $context["flash_error"], "html", null, true);
-            echo "</div>
-    ";
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['flash_error'], $context['_parent'], $context['loop']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 104
         echo "            ";
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 104, $this->source); })()), "flashes", ["notice"], "method", false, false, false, 104));
+        $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 101, $this->source); })()), "flashes", ["notice"], "method", false, false, false, 101));
         foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
-            // line 105
+            // line 102
             echo "    <div class=\"alert alert-success\">
         ";
-            // line 106
+            // line 103
             echo twig_escape_filter($this->env, $context["message"], "html", null, true);
             echo "
     </div>
@@ -244,7 +230,7 @@ class __TwigTemplate_522617cdd1548be606f63f93b92ed3a9 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['message'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 109
+        // line 106
         echo "\t\t\t<h1>Zaloguj się</h1><br>
 \t\t\t<div class=\"input-group mb-3\">
                   <div class=\"input-group-prepend\">
@@ -260,7 +246,7 @@ class __TwigTemplate_522617cdd1548be606f63f93b92ed3a9 extends Template
                 </div>
                  <input type=\"hidden\" name=\"_csrf_token\"
            value=\"";
-        // line 123
+        // line 120
         echo twig_escape_filter($this->env, $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken("authenticate"), "html", null, true);
         echo "\"
     >
@@ -433,7 +419,7 @@ signInButton.addEventListener('click', () => {
 
     public function getDebugInfo()
     {
-        return array (  264 => 123,  248 => 109,  239 => 106,  236 => 105,  231 => 104,  222 => 102,  217 => 101,  208 => 99,  204 => 98,  195 => 92,  187 => 87,  181 => 83,  172 => 81,  168 => 80,  163 => 78,  153 => 70,  147 => 67,  144 => 66,  142 => 65,  138 => 64,  128 => 56,  122 => 53,  119 => 52,  117 => 51,  112 => 49,  103 => 42,  97 => 39,  94 => 38,  92 => 37,  88 => 36,  77 => 28,  69 => 25,  43 => 1,);
+        return array (  250 => 120,  234 => 106,  225 => 103,  222 => 102,  217 => 101,  208 => 99,  204 => 98,  195 => 92,  187 => 87,  181 => 83,  172 => 81,  168 => 80,  163 => 78,  153 => 70,  147 => 67,  144 => 66,  142 => 65,  138 => 64,  128 => 56,  122 => 53,  119 => 52,  117 => 51,  112 => 49,  103 => 42,  97 => 39,  94 => 38,  92 => 37,  88 => 36,  77 => 28,  69 => 25,  43 => 1,);
     }
 
     public function getSourceContext()
@@ -536,9 +522,6 @@ signInButton.addEventListener('click', () => {
 \t<div class=\"form-container sign-in-container\">
 \t\t<form method=\"post\" action=\"/login\">
             {% for flash_error in app.flashes('verify_error') %}
-        <div class=\"alert alert-danger\" role=\"alert\">{{ flash_error }}</div>
-    {% endfor %}
-                {% for flash_error in app.flashes('error') %}
         <div class=\"alert alert-danger\" role=\"alert\">{{ flash_error }}</div>
     {% endfor %}
             {% for message in app.flashes('notice') %}
@@ -710,6 +693,6 @@ signInButton.addEventListener('click', () => {
 });
 
 </script>
-</body>", "security/login.html.twig", "C:\\duzy_projekt_programowanie\\templates\\security\\login.html.twig");
+</body>", "security/login.html.twig", "C:\\Users\\GogolTech\\Desktop\\duzy_projekt_programowanie\\templates\\security\\login.html.twig");
     }
 }
