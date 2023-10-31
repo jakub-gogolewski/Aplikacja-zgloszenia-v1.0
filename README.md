@@ -1,5 +1,5 @@
 # Opis projektu
-Ulepszana wersja poprzedniej [aplikacji w Symfony](https://github.com/jakub-gogolewski/Aplikacja-zgloszenia-v0.5).
+Ulepszana wersja poprzedniej [aplikacji w Symfony](https://github.com/jakub-gogolewski/Aplikacja-zgloszenia-v0.5). Wciąż w budowie.
 <br /><br />
 Jest robiona w sposób bardziej schludny i poprawny, a w planach jest rezygnacja z szablonów adminLTE i dodanie więcej funkcjonalności.
 
