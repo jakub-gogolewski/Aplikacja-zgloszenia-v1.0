@@ -5,3 +5,4 @@ Jest robiona w sposób bardziej schludny i poprawny, a w planach jest rezygnacja
 
 # Sposób uruchomienia:
 Projekt jest wstępnie skonteneryzowany, więc wystarczy pobrać projekt i wykonać polecenie **docker-compose up -d** i poczekać na zbudowanie aplikacji, jednak wymagane jest dodanie poprawnego pliku .env, którego nie ma w projekcie ze względów bezpieczeństwa.
+<br /><br />Po zbudowaniu wystarczy wejśc na 127.0.0.1.
