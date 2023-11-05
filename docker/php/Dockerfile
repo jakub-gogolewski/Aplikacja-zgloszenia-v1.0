@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     pdo pdo_pgsql
 
 # Skopiuj pliki projektu Symfony do katalogu w kontenerze
-COPY . /var/www/html
+COPY ../../html /var/www/html
 
 # Ustaw prawa dostępu
 RUN chown -R www-data:www-data /var/www/html
