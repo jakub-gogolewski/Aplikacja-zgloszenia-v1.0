@@ -10,11 +10,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install \
     pdo pdo_pgsql
 
-# Skopiuj pliki projektu Symfony do katalogu w kontenerze
-COPY ../../html /var/www/html
+
 
 # Ustaw prawa dostępu
 RUN chown -R www-data:www-data /var/www/html
 
 # W razie potrzeby zainstaluj Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
