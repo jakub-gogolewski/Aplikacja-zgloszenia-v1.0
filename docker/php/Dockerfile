@@ -16,4 +16,4 @@ RUN apt-get update && apt-get install -y \
 RUN chown -R www-data:www-data /var/www/html
 
 # W razie potrzeby zainstaluj Composer
-# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
