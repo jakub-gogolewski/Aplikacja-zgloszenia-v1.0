@@ -18,10 +18,9 @@ security:
             provider: app_user_provider
             custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
-                path: /logout
-                target: /logout_message
+                path: app_logout
                 # where to redirect after logout
-
+                # target: app_any_route
 
             remember_me:
                 secret: '%kernel.secret%'
@@ -40,8 +39,7 @@ security:
     access_control:
     - { path: ^/login$, role: PUBLIC_ACCESS }
     - { path: ^/register$, role: PUBLIC_ACCESS }
-    - { path: ^/logout$, role: ROLE_USER }
-    - { path: ^/logout_message$, role: PUBLIC_ACCESS }
+    - { path: ^/logout$, role: PUBLIC_ACCESS }
     - { path: ^/verify/email, role: PUBLIC_ACCESS }
     - { path: ^/, role: ROLE_USER }
     - { path: ^/user/delete/, role: ROLE_VERIFIED }
