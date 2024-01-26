@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -42,6 +44,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
+
+    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Task::class)]
+    private Collection $createdTasks;
+
+    #[ORM\OneToMany(mappedBy: 'assigned', targetEntity: Task::class)]
+    private Collection $assignedTasks;
+    
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $color = null;
+
+    public function __construct()
+    {
+        $this->createdTasks = new ArrayCollection();
+        $this->assignedTasks = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -156,4 +173,81 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     return $this;
 }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getCreatedTasks(): Collection
+    {
+        return $this->createdTasks;
+    }
+
+    public function addCreatedTask(Task $createdTask): static
+    {
+        if (!$this->createdTasks->contains($createdTask)) {
+            $this->createdTasks->add($createdTask);
+            $createdTask->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedTask(Task $createdTask): static
+    {
+        if ($this->createdTasks->removeElement($createdTask)) {
+            // set the owning side to null (unless already changed)
+            if ($createdTask->getCreator() === $this) {
+                $createdTask->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getAssignedTasks(): Collection
+    {
+        return $this->assignedTasks;
+    }
+
+    public function addAssignedTask(Task $assignedTask): static
+    {
+        if (!$this->assignedTasks->contains($assignedTask)) {
+            $this->assignedTasks->add($assignedTask);
+            $assignedTask->setAssigned($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssignedTask(Task $assignedTask): static
+    {
+        if ($this->assignedTasks->removeElement($assignedTask)) {
+            // set the owning side to null (unless already changed)
+            if ($assignedTask->getAssigned() === $this) {
+                $assignedTask->setAssigned(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): static
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName() . ' ' . $this->getLastname();
+    }
 }

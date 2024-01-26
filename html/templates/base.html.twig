@@ -1,107 +1,179 @@
-{# <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
-
-        {% block javascripts %}
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
-</html> #}
-
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LB SOLUTIONS - WARSZTAT</title>
+  
+  <title>LB SOLUTIONS - SERWIS</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+
+  
+  <!-- Font Awesome's JS for icons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+  {% block styles %}
+  
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      margin: 0;
-    }
-    main {
-      flex-grow: 1;
-    }
-    .navbar {
-      background-color: #343a40; /* Bootstrap dark background */
-    }
-    .navbar-dark .navbar-nav .nav-link {
-      color: rgba(255,255,255,.5);
-    }
-    .navbar-dark .navbar-nav .nav-link:hover,
-    .navbar-dark .navbar-nav .nav-link:focus {
-      color: rgba(255,255,255,.75);
-    }
-    .footer {
-      background-color: #343a40; /* Bootstrap dark background */
-      color: white;
-      text-align: center;
-      padding: 1rem 0;
-      position: sticky;
-      bottom: 0;
-      width: 100%;
-    }
-    .footer span {
-      margin-right: 1rem;
-    }
-  </style>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./dist/css/custom.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  {% endblock styles %}
+
 </head>
-<body class="bg-dark text-white">
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <a class="navbar-brand" href="#">LB SOLUTIONS</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+
+
+<body class="hold-transition layout-top-nav">
+
+<div class="wrapper">
+
+{% block navbar %}
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-md navbar-dark">
+    <div class="container-fluid d-flex justify-content-between"> <!-- Kontener dla logo, menu, i menu użytkownika -->
+      <a href="{{ path('app_main') }}" class="navbar-brand logo ml-0">
+        {% include 'elements/logo.html.twig' %}
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              KLIENCI
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Akcja</a>
-              <a class="dropdown-item" href="#">Inna akcja</a>
-              <a class="dropdown-item" href="#">Coś jeszcze</a>
-            </div>
+    <div class="collapse navbar-collapse" id="navbarsExample04">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link navbar-text well-sm" href="{{ path('app_main') }}"><i class="fas fa-home"></i></a>
+      </li>
+          <li class="nav-item dropdown active">
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle navbar-text well-sm"><b>KLIENCI</b></a>
+            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu dropdown-menu-l border-0 shadow">
+              <li><a href="https://www.lbsolutions.pl/admin?crudAction=index&crudControllerFqcn=App%5CController%5CUserCrudController" class="dropdown-item "><i class="fa fa-clipboard-list"></i> Lista klientów</a></li>
+              <li><a href="/dodaj-klienta" class="dropdown-item"><i class="fa fa-user-plus"></i> Nowy klient</a></li>
+            </ul>
           </li>
-          <!-- More nav items -->
+          <li class="nav-item dropdown active">
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle navbar-text"><b>PRACOWNICY</b></a>
+            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu dropdown-menu-l border-0 shadow">
+              <li><a href="https://www.lbsolutions.pl/admin?crudAction=index&crudControllerFqcn=App%5CController%5CUserCrudController" class="dropdown-item"><i class="fa fa-clipboard-list"></i> Lista pracowników</a></li>
+              <li><a href="/dodaj-pracownika" class="dropdown-item"><i class="fa fa-user-plus"></i> Nowy pracownik</a></li>
+            </ul>
+          </li>
+          {% if 'Klient' in app.user.getRoles() %}
+
+              <li class="nav-item"><a href="/dodaj-zlecenie" class="nav-link"><i class="fa fa-user-plus"></i> Dodaj zlecenie</a></li>
+              <li class="nav-item"><a href="/moje-zlecenia" class="nav-link"><i class="fa fa-clipboard-list"></i> Moje zlecenia</a></li>
+
+          {% endif %}
+          <li class="nav-item dropdown active">
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle navbar-text"><b>ZLECENIA</b></a>
+            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu dropdown-menu-l border-0 shadow">
+              <li><a href="/moje-zlecenia" class="dropdown-item"><i class="fa fa-clipboard-list"></i> Moje zlecenia</a></li>
+              <li><a href="/lista-zlecen" class="dropdown-item"><i class="fa fa-clipboard-list"></i> Lista zleceń</a></li>
+              <li><a href="/dodaj-zlecenie" class="dropdown-item"><i class="fa fa-user-plus"></i> Dodaj zlecenie</a></li>
+            </ul>
+          </li>
+    </ul>
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown user-menu">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <img src="./dist/img/user.png" class="user-image img-circle elevation-2" alt="User Image">
+          <span class="d-none d-md-inline ">{{ app.user.getName() }} {{ app.user.getLastname() }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+          <!-- User image -->
+          <li class="user-header bg-primary active">
+            <img src="./dist/img/user.png" class="img-circle elevation-2" alt="User Image">
+
+            <p>
+            {{ app.user.getName() }} {{ app.user.getLastname }}  - {{ app.user.getRoles()[0] }}
+            </p>
+          </li>
+          <!-- Menu Footer-->
+          <li class="user-footer">
+            <a href="/moj-profil" class="btn btn-default btn-flat"><i class="far fa-user"></i> Mój profil</a>
+            <a href="/logout" class="btn btn-default btn-flat float-right"><i class="fa fa-sign-out-alt"></i> Wyloguj się</a>
+          </li>
         </ul>
-        <span class="navbar-text">
-          Jan Nowak
-        </span>
-      </div>
-    </nav>
-  </header>
+      </li>
+      </ul>   
+  </div>
+</div>
+</nav>
+<!-- /.navbar -->
+{% endblock navbar %}
 
-  <main class="container my-4">
-    <h1>Witaj na stronie warsztatu LB SOLUTIONS</h1>
-    <p>...Tutaj dodaj treść strony...</p>
-  </main>
 
-  <footer class="footer">
-    <div>&copy; 2023 LB SOLUTIONS</div>
-    <div>WEB DESIGN IS OUR PASSION</div>
+{% block content %}
+
+<!-- Main content -->
+  <div class="content">
+    <div class="container">
+ <!-- Your page content goes here -->
+  {% block page_content %}
+  <!-- This block should be overridden by child templates to insert specific page content -->
+
+  <h1 class="my-5 text-center">FROMBERG PLS 3 🙏🙏🙏</h1>
+  <h1>Lista użytkowników</h1>
+    <ul>
+        {% for user in users %}
+            <li>{{ user.Id }} {{ user.Name }} {{ user.Lastname }} | {{ user.Email }} | {{ user.IsVerified }}
+            <button class="delete-btn" data-user-id="{{ user.Id }}">Usuń</button>
+            </li>
+        {% endfor %}
+    </ul>
+    <script>
+    $(document).on('click', '.delete-btn', function() {
+        let userId = $(this).data('user-id');
+        $.ajax({
+            url: `/user/delete/${userId}`,
+            method: 'POST',
+            success: function() {
+                alert('Użytkownik został usunięty');
+                location.reload(); // Odśwież stronę, aby zaktualizować listę
+            },
+            error: function(jqXHR) {
+    let errorMessage = 'Błąd podczas usuwania użytkownika';
+    if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+        errorMessage = jqXHR.responseJSON.message;
+    }
+    alert(errorMessage);
+}
+        });
+    });
+</script>
+
+  {% endblock page_content %}
+</div>
+  </div>
+{% endblock content %}
+
+
+
+{% block footer %}
+
+  <!-- Main Footer -->
+  <footer class="footer text-white py-3">
+      <span class="ml-3">&copy; 2023 LB SOLUTIONS - WEB DESIGN IS OUR PASSION</span>
   </footer>
+{% endblock footer %}
 
-  <!-- Bootstrap JS, Popper.js, and jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</div>
+<!-- ./wrapper -->
+
+
+{% block required_scripts %}
+
+  <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+
+  
+{% endblock required_scripts %}
+
 </body>
 </html>
-
-
-

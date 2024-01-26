@@ -1,8 +1,10 @@
 <head>
 
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<link rel="stylesheet" href="./dist/css/login.css">
 	<link rel="stylesheet" href="./plugins/fontawesome-free/css/all.css">
-
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -22,6 +24,21 @@
 	<div class="container {% if destination|default('') == '/register' %} right-panel-active noanimation {% endif %}" id="container">
 		<div class="form-container sign-up-container">
 			<form method="post" action="/register">
+				{# {% for flash_error in app.flashes('error') %}
+					<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+				{% endfor %}
+				{% for message in app.flashes('notice') %}
+					<div class="alert alert-success">
+						{{ message }}
+					</div>
+				{% endfor %} #}
+				{% for flash_error in app.flashes('register_error') %}
+					<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+				{% endfor %}
+				{% for message in app.flashes('register_notice') %}
+					<div class="alert alert-success">{{ message }}</div>
+				{% endfor %}
+
 				{{ form_start(registrationForm) }}
 				<h1>Zarejestruj się</h1><br>
 				<div class="input-group mb-3">

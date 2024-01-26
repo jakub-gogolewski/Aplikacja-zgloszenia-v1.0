@@ -16,14 +16,51 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 
 class RegistrationController extends AbstractController
 {
+    
+    private $turnstileSecretKey = '0x4AAAAAAAP3mAd8YUJf68nXQOpzRoddF1M';// Zmień na swój kluczek sekretny
     private EmailVerifier $emailVerifier;
 
     public function __construct(EmailVerifier $emailVerifier)
     {
         $this->emailVerifier = $emailVerifier;
+    }
+
+    private function verifyTurnstileResponse(string $response): bool
+    {
+
+        $url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+        $data = [
+            'secret' => $this->turnstileSecretKey,
+            'response' => $response
+        ];
+    
+        $options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($data)
+            ]
+        ];
+    
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+    
+        // Najpierw dekoduj odpowiedź
+        $responseKeys = json_decode($result, true);
+        
+        // Teraz sprawdź, czy otrzymałeś sukces i czy wynik nie był FALSE
+        if ($result === FALSE || !($responseKeys['success'] ?? false)) {
+            // Jeśli Turnstile nie zwróci sukcesu lub jeśli żądanie nie powiodło się, wyrzuć wyjątek z wiadomością
+            //throw new CustomUserMessageAuthenticationException('Błąd weryfikacji! Czy jesteś człowiekiem?');
+            return false;
+        } 
+    
+        // Jeśli wszystko jest w porządku, zwróć true
+        return true;
     }
 
     #[Route('/register', name: 'app_register')]
@@ -39,6 +76,18 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+        // Dodaj sprawdzenie Turnstile
+        $turnstileResponse = $request->request->get('cf-turnstile-response', '');
+
+        if (!$this->verifyTurnstileResponse($turnstileResponse)) {
+            $this->addFlash('error', 'Błąd weryfikacji Turnstile. Czy jesteś człowiekiem?');
+            return $this->render('security/login.html.twig', [
+                'registrationForm' => $form->createView(),
+                'destination' => '/register'
+            ]);
+        }
+
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
