@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ApiKeys;
 use App\Entity\State;
 use App\Entity\StateRelation;
 use App\Entity\Task;
@@ -44,11 +45,13 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-dashboard');
+        yield MenuItem::linkToUrl('Strona główna', 'fa fa-home', '/');
+        // yield MenuItem::linkToDashboard('Dashboard', 'fa fa-dashboard');
         yield MenuItem::linkToCrud('Użytkownicy', 'fa fa-user', User::class);
         yield MenuItem::linkToCrud('Zadania', 'fa fa-calendar', Task::class);
         yield MenuItem::linkToCrud('Statusy zadań', 'fa fa-signal', State::class);
         yield MenuItem::linkToCrud('Kolejność statusów', 'fa fa-sort', StateRelation::class);
+        yield MenuItem::linkToCrud('Klucze API', 'fa fa-key', ApiKeys::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }

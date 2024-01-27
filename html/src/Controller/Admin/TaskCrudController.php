@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -23,8 +24,9 @@ class TaskCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
-        yield IdField::new('id')->onlyOnIndex();
+        // yield IdField::new('id')->onlyOnIndex();
         yield AssociationField::new('state');
+        yield IntegerField::new('priority');
         yield DateTimeField::new('startDate');
         yield DateTimeField::new('endDate');
         yield AssociationField::new('creator');

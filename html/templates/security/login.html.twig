@@ -105,6 +105,21 @@
 					</div>
 				</div>
 
+					<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">
+							<i class="fas fa-lock"></i>
+						</span>
+					</div>
+
+					{{ form_widget(registrationForm.repeatPassword) }}
+					<div>
+						{% for error in registrationForm.repeatPassword.vars.errors %}
+							<small class="form-error">{{ error.message }}</small>
+						{% endfor %}
+					</div>
+				</div>
+
 				<div class="input-group mb-3">
 					{{ form_widget(registrationForm.agreeTerms) }}
 					<label for="registration_form_agreeTerms">Akceptuję regulamin</label>
@@ -147,7 +162,7 @@
 					<input type="password" name="password" id="inputPassword" class="form-control" placeholder="Hasło">
 				</div>
 				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-				<a href="#">Zapomniałeś hasła?</a>
+				<a href="{{ path('app_forgot_password_request') }}">Zapomniałeś hasła?</a>
 				<div class="cf-turnstile" data-sitekey="0x4AAAAAAAP3mAGTgFCYPXrj" data-theme="light"></div><br>
 				<button type="submit">ZALOGUJ</button>
 			</form>
@@ -155,7 +170,7 @@
 		<div class="overlay-container">
 			<div class="overlay">
 				<div class="overlay-panel overlay-left">
-					<a href="/login" class="navbar-brand logo">
+					<a href="{{ path('app_login') }}" class="navbar-brand logo">
 						{% include 'elements/logo.html.twig' %}
 					</a>
 					<h1>Masz już konto?</h1>
@@ -163,7 +178,7 @@
 					<button class="ghost" id="signIn">LOGOWANIE</button>
 				</div>
 				<div class="overlay-panel overlay-right">
-					<a href="/login" class="navbar-brand logo">
+					<a href="{{ path('app_login') }}" class="navbar-brand logo">
 						{% include 'elements/logo.html.twig' %}
 					</a>
 					<h1>Nie masz konta?</h1>

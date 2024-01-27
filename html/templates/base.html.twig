@@ -54,14 +54,14 @@
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle navbar-text well-sm"><b>KLIENCI</b></a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu dropdown-menu-l border-0 shadow">
               <li><a href="https://www.lbsolutions.pl/admin?crudAction=index&crudControllerFqcn=App%5CController%5CUserCrudController" class="dropdown-item "><i class="fa fa-clipboard-list"></i> Lista klientów</a></li>
-              <li><a href="/dodaj-klienta" class="dropdown-item"><i class="fa fa-user-plus"></i> Nowy klient</a></li>
+              <li><a href="https://www.lbsolutions.pl/admin?crudAction=new&crudControllerFqcn=App%5CController%5CUserCrudController" class="dropdown-item"><i class="fa fa-user-plus"></i> Nowy klient</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown active">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle navbar-text"><b>PRACOWNICY</b></a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu dropdown-menu-l border-0 shadow">
               <li><a href="https://www.lbsolutions.pl/admin?crudAction=index&crudControllerFqcn=App%5CController%5CUserCrudController" class="dropdown-item"><i class="fa fa-clipboard-list"></i> Lista pracowników</a></li>
-              <li><a href="/dodaj-pracownika" class="dropdown-item"><i class="fa fa-user-plus"></i> Nowy pracownik</a></li>
+              <li><a href="https://www.lbsolutions.pl/admin?crudAction=new&crudControllerFqcn=App%5CController%5CUserCrudController" class="dropdown-item"><i class="fa fa-user-plus"></i> Nowy pracownik</a></li>
             </ul>
           </li>
           {% if 'Klient' in app.user.getRoles() %}
@@ -96,8 +96,8 @@
           </li>
           <!-- Menu Footer-->
           <li class="user-footer">
-            <a href="/moj-profil" class="btn btn-default btn-flat"><i class="far fa-user"></i> Mój profil</a>
-            <a href="/logout" class="btn btn-default btn-flat float-right"><i class="fa fa-sign-out-alt"></i> Wyloguj się</a>
+            <a href="{{ path('app_my_profile') }}" class="btn btn-dark"><i class="far fa-user"></i> Mój profil</a>
+            <a href="{{ path('app_logout') }}" class="btn btn-danger float-right"><i class="fa fa-sign-out-alt"></i> Wyloguj się</a>
           </li>
         </ul>
       </li>
@@ -117,8 +117,6 @@
  <!-- Your page content goes here -->
   {% block page_content %}
   <!-- This block should be overridden by child templates to insert specific page content -->
-
-  <h1 class="my-5 text-center">FROMBERG PLS 3 🙏🙏🙏</h1>
   <h1>Lista użytkowników</h1>
     <ul>
         {% for user in users %}

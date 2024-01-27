@@ -9,6 +9,15 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+
+    role_hierarchy:
+        ROLE_USER:  PUBLIC_ACCESS   # ROLE_USER - domyślna dla zalogowanego użytkownika
+        ROLE_VERIFIED:  ROLE_USER
+        ROLE_CLIENT:    ROLE_VERIFIED
+        ROLE_EMPLOYEE:  ROLE_CLIENT
+        ROLE_API:   ROLE_EMPLOYEE
+        ROLE_ADMIN: ROLE_API
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -47,7 +56,10 @@ security:
     - { path: ^/reset-password/check-email$, roles: PUBLIC_ACCESS }
     - { path: ^/reset-password/set-password, roles: PUBLIC_ACCESS }
     - { path: ^/verify/email, role: PUBLIC_ACCESS }
+    - { path: ^/api/, role: PUBLIC_ACCESS } # aby api nie zwracało formularza logowania
+
     - { path: ^/, role: ROLE_USER }
+
     - { path: ^/user/delete/, role: ROLE_VERIFIED }
     - { path: ^/user/edit/, role: ROLE_VERIFIED }
 

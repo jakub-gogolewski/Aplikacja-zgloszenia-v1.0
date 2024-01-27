@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Entity\User;
 use App\Form\TaskType;
+use App\Repository\ApiKeysRepository;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,6 +15,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Annotations as OA;
 
 class TaskController extends AbstractController
 {
@@ -105,11 +109,28 @@ class TaskController extends AbstractController
 
         $qb->select('e')
             ->from(Task::class, 'e')
-            // ->where('e.deleted = false')
+            ->where('e.deleted is not true')
             ->where('e.startDate > :startDate')
             ->andWhere('e.endDate < :endDate')
             ->setParameter('startDate', $start)
             ->setParameter('endDate', $end);
+
+        $user = $this->getUser();
+
+        if ($this->isGranted('ROLE_EMPLOYEE'))
+        {
+            // admin widzi wszystko - brak warunków dodania/przypisania
+            if (!$this->isGranted('ROLE_ADMIN'))
+            {
+                $qb->andWhere('e.creator in (:user) OR e.assigned in (:user)');
+                $qb->setParameter('user', [$user, $user->getSubordinates()]);
+            }
+        }
+        else
+        {
+            $qb->andWhere('e.creator = :user OR e.assigned = :user');
+            $qb->setParameter('user', $user);
+        }
 
         $tasks = $qb->getQuery()->getResult();
         
@@ -154,21 +175,64 @@ class TaskController extends AbstractController
         return new JsonResponse(['status' => 'OK']);
     }
 
-    #[Route('/api/task', name: 'crud_task_create', methods: ['PUT'])]
-    public function crud_create(Request $request): JsonResponse
+    #[Route('/api/task/create', name: 'crud_task_create', methods: ['POST'])]
+    public function crud_create(Request $request, EntityManagerInterface $em, ApiKeysRepository $akr): JsonResponse
     {
-        try {
-            $task = new Task();
-            $form = $this->createForm(TaskType::class, $task);
-            $form->handleRequest($request);
+        $task = new Task();
+        $form = $this->createForm(TaskType::class, $task);
+        $form->handleRequest($request);
             
-            $task->setDeleted(true);
+        if (!(
+            $apiKey = $request->request->get('apiKey', false)
+        ))
+            return new JsonResponse(['status' => 'ERROR', 'message' => 'Brak API Key']);
+
+        try {
+            $user = $akr->find($apiKey)->getApiUser();
+
+            if (!$user->isGranted('ROLE_API'))
+                return new JsonResponse(['status' => 'ERROR', 'message' => 'Zły API Key']);
+            
+            $task->setCreator($user);
+        } catch (\Throwable $e) {
+            return new JsonResponse(['status' => 'ERROR', 'message' => 'Zły API Key']);
+        }
+            
+        try {
             $em->persist($task);
             $em->flush();
 
             return new JsonResponse(['status' => 'OK']);
         } catch (\Throwable $e) {
+            return new JsonResponse(['status' => 'ERROR', 'message' => $e->getMessage() . ' ' . $e->getLine()]);
+        }
+    }
+
+    #[Route('/api/task/update', name: 'crud_task_update', methods: ['POST'])]
+    public function crud_update(Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $post = $request->request;
+
+        if (!(
+            $id = $post->get('id')
+        )) {
             return new JsonResponse(['status' => 'ERROR']);
+        }
+
+        if (!(
+            $apiKey = $request->request->get('apiKey', false)
+        )) {
+            return new JsonResponse(['status' => 'ERROR', 'message' => 'Brak API Key']);
+        }
+
+        $user;
+        try {
+            $user = $akr->find($apiKey)->getApiUser();
+
+            if (!$user->isGranted('ROLE_API'))
+                return new JsonResponse(['status' => 'ERROR', 'message' => 'Zły API Key']);
+        } catch (\Throwable $e) {
+            return new JsonResponse(['status' => 'ERROR', 'message' => 'Zły API Key']);
         }
     }
 }

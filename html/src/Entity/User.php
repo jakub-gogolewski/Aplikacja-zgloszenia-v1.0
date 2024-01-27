@@ -15,7 +15,8 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Adres email jest już w użyciu')]
+#[ORM\HasLifecycleCallbacks()]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -54,10 +55,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $color = null;
 
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'subordinates')]
+    private ?self $supervisor = null;
+
+    #[ORM\OneToMany(mappedBy: 'supervisor', targetEntity: self::class)]
+    private Collection $subordinates;
+
+    #[ORM\OneToMany(mappedBy: 'apiUser', targetEntity: ApiKeys::class)]
+    private Collection $apiKeys;
+
     public function __construct()
     {
         $this->createdTasks = new ArrayCollection();
         $this->assignedTasks = new ArrayCollection();
+        $this->subordinates = new ArrayCollection();
+        $this->apiKeys = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -249,5 +261,129 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString(): string
     {
         return $this->getName() . ' ' . $this->getLastname();
+    }
+
+    public function getSupervisor(): ?self
+    {
+        return $this->supervisor;
+    }
+
+    public function setSupervisor(?self $supervisor): static
+    {
+        $this->supervisor = $supervisor;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getSubordinates(): Collection
+    {
+        return $this->subordinates;
+    }
+
+    public function addSubordinate(self $subordinate): static
+    {
+        if (!$this->subordinates->contains($subordinate)) {
+            $this->subordinates->add($subordinate);
+            $subordinate->setSupervisor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubordinate(self $subordinate): static
+    {
+        if ($this->subordinates->removeElement($subordinate)) {
+            // set the owning side to null (unless already changed)
+            if ($subordinate->getSupervisor() === $this) {
+                $subordinate->setSupervisor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAllRoles(array $allRoles): array
+    {
+        $this->checkedRoles = []; // Resetowanie sprawdzonych ról
+        $userRoles = $this->getRoles(); // Pobieranie aktualnych ról użytkownika
+        return $this->resolveRoles($userRoles, $allRoles);
+    }
+
+    private function resolveRoles(array $roles, array $allRoles): array
+    {
+        $result = [];
+
+        foreach ($roles as $role) {
+            if (!isset($this->checkedRoles[$role])) {
+                $this->checkedRoles[$role] = true;
+                $result[] = $role;
+
+                if (isset($allRoles[$role])) {
+                    $result = array_merge($result, $this->resolveRoles($allRoles[$role], $allRoles));
+                }
+            }
+        }
+
+        return array_values(array_unique($result));
+    }
+
+    /**
+     * @return Collection<int, ApiKeys>
+     */
+    public function getApiKeys(): Collection
+    {
+        return $this->apiKeys;
+    }
+
+    public function addApiKey(ApiKeys $apiKey): static
+    {
+        if (!$this->apiKeys->contains($apiKey)) {
+            $this->apiKeys->add($apiKey);
+            $apiKey->setApiUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApiKey(ApiKeys $apiKey): static
+    {
+        if ($this->apiKeys->removeElement($apiKey)) {
+            // set the owning side to null (unless already changed)
+            if ($apiKey->getApiUser() === $this) {
+                $apiKey->setApiUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+        /**
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $creationDate;
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        if ($this->creationDate === null) {
+            $this->creationDate = new \DateTime();
+        }
     }
 }

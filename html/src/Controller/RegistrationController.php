@@ -17,6 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Form\FormError;
+
 
 class RegistrationController extends AbstractController
 {
@@ -88,11 +90,24 @@ class RegistrationController extends AbstractController
             ]);
         }
 
+        $plainPassword = $form->get('plainPassword')->getData();
+        $repeatPassword = $form->get('repeatPassword')->getData();
+        
+        if ($plainPassword !== $repeatPassword) {
+            // Dodaj błąd do formularza
+            $form->get('repeatPassword')->addError(new FormError('Hasła nie są identyczne.'));
+    
+            // Wyświetl formularz rejestracji ponownie
+            return $this->render('security/login.html.twig', [
+                'registrationForm' => $form->createView(),
+                'destination' => '/register'
+            ]);
+        }
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $plainPassword
                 )
             );
 
@@ -142,7 +157,17 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-        } catch (VerifyEmailExceptionInterface $exception) {
+        }catch (ExpiredSignatureException $expiredException) {
+            // Usuń użytkownika z bazy danych
+            $entityManager->remove($user);
+            $entityManager->flush();
+
+            $this->addFlash('error', 'Link weryfikacyjny wygasł. Prosimy o ponowną rejestrację.');
+
+            // Przekieruj do formularza rejestracji
+            return $this->redirectToRoute('app_register');
+        } 
+        catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_error',$translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
             return $this->redirectToRoute('app_login');

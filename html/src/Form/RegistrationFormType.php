@@ -74,19 +74,49 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password','class' => 'form-control',],
+                'attr' => ['autocomplete' => 'new-password','class' => 'form-control', 'placeholder' => 'Hasło'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Hasło nie może być puset'
                     ]),
                     new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'min' => 8,
+                        'minMessage' => 'Minimalna długość hasła: {{ limit }} znaków',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
+                    new Regex([
+                        'pattern'=>"/.*[A-Z].*/",
+                        'message'=>"Hasło musi mieć minimum jedną dużą literę"
+                    ]),
+                    new Regex([
+                        'pattern'=>"/.*[a-z].*/",
+                        'message'=>"Hasło musi mieć minimum jedną małą literę"
+                    ]),
+                    new Regex([
+                        'pattern'=>"/.*[0-9].*/",
+                        'message'=>"Hasło musi mieć minimum jedną cyfrę"
+                    ]),
+                    new Regex([
+                        'pattern'=>"/.*[\W].*/",
+                        'message'=>"Hasło musi mieć minimum jeden znak specjalny"
+                    ]),
+                    new Regex([
+                        'pattern'=>"/^[^\s]*$/",
+                        'message'=>"Hasło nie może zawierać spacji"
+                    ]),
                 ],
             ])
+            ->add('repeatPassword', PasswordType::class, [
+                'mapped' => false,
+                'attr' => ['autocomplete' => 'new-password', 'class' => 'form-control', 'placeholder' => 'Powtórz hasło'],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Powtórzenie hasła nie może być puste',
+                    ]),
+                ],
+            ])
+            
         ;
     }
 
