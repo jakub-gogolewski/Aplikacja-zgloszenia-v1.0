@@ -4,11 +4,23 @@ FROM php:8.2-fpm
 # Ustaw katalog roboczy
 WORKDIR /var/www/html
 
-# Zainstaluj potrzebne pakiety i rozszerzenia PHP
+# Update and install dependencies
 RUN apt-get update && apt-get install -y \
     libpq-dev \
-    && docker-php-ext-install \
-    pdo pdo_pgsql
+    zip \
+    unzip \
+    git \
+    libzip-dev \
+    libicu-dev
+
+# Clean up APT cache to reduce image size
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo pdo_pgsql
+RUN docker-php-ext-configure intl
+RUN docker-php-ext-install intl
+RUN docker-php-ext-install zip
 
 
 

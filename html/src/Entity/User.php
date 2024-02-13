@@ -178,13 +178,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function addRole(string $role): self
-{
-    if (!in_array($role, $this->roles, true)) {
-        $this->roles[] = $role;
+    {
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
     }
 
-    return $this;
-}
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->roles);
+    }
 
     /**
      * @return Collection<int, Task>

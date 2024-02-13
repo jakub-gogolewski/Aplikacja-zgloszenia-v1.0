@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Task;
+use App\Form\TaskType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +22,8 @@ class MainController extends AbstractController
     public function index(UserRepository $userRepository, TokenStorageInterface $tokenStorage, #[CurrentUser] $currentUser, Request $request): Response
     {
 
-            if (!$currentUser?->isVerified()) {
-                
+        if (!$currentUser?->isVerified())
+        {        
             // 1. Usuń token
             $tokenStorage->setToken(null);
             // 2. Usuń ciasteczko "Zapamiętaj mnie"
@@ -30,15 +32,18 @@ class MainController extends AbstractController
             $response->headers->clearCookie('REMEMBERME');
             $this->addFlash('error', 'Musisz potwierdzić maila, zanim się zalogujesz!');
             return $response;
-            }
+        }
 
-
+        $task = new Task();
+        $form = $this->createForm(TaskType::class, $task);
+        $form->handleRequest($request);
 
         $users = $userRepository->findAll();
 
         return $this->render('main/index.html.twig', [
             'controller_name' => 'MainController',
             'users' => $users,
+            'form' => $form->createView()
         ]);
     }
 

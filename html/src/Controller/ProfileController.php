@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ProfileController extends AbstractController
 {
@@ -68,22 +69,37 @@ class ProfileController extends AbstractController
     #[Route('/api/user/edit/{id}')]
 	public function editUserApi($id,Request $request, EntityManagerInterface $em)
 	{
-		$post = $request->request;
-		$user = $em->getRepository(User::Class)->find($id);
+        $userToEdit = $em->getRepository(User::Class)->find($id);
 
-		if ($post->get('name', false))
-			$user->setName($post->get('name'));
-		
-		if ($post->get('lastname', false))
-            $user->setLastname($post->get('lastname'));
-
-		if ($post->get('email', false))
-            $user->setEmail($post->get('email'));
-		
-		$em->persist($user);
-		$em->flush();
-
-		return new Response($id, 200);
+        if ($userToEdit === null) {
+            return new Response('error', 404);
+        }
+    
+        // Pobierz aktualnie zalogowanego użytkownika
+        $currentUser = $this->getUser();
+    
+        // Sprawdź, czy aktualnie zalogowany użytkownik jest tym, którego chce edytować
+        // lub czy jest administratorem
+        if ($currentUser->getId() !== $userToEdit->getId() && !in_array('ROLE_ADMIN', $currentUser->getRoles())) {
+            throw new AccessDeniedException('Nie masz uprawnień do edycji tego użytkownika.');
+        }
+    
+        // Proces edycji użytkownika
+        $post = $request->request;
+        if ($post->get('name', false)) {
+            $userToEdit->setName($post->get('name'));
+        }
+        if ($post->get('lastname', false)) {
+            $userToEdit->setLastname($post->get('lastname'));
+        }
+        if ($post->get('email', false)) {
+            $userToEdit->setEmail($post->get('email'));
+        }
+    
+        $em->persist($userToEdit);
+        $em->flush();
+    
+        return new Response('success', 200);
 	}
 
 	#[Route('/api/user/remove/{id}')]
@@ -116,5 +132,5 @@ class ProfileController extends AbstractController
         }
     
         return new Response('success', 200);
-}
+}}
 
